@@ -1,0 +1,40 @@
+name: FritzHole
+version: "0.3.3"
+slug: fritzhole
+description: Pi-hole-ähnliches Dashboard und Verwaltung für die DNS-Filterung der FRITZ!Box (Live-Mitschnitt, ohne eigene DNS-Funktion)
+url: https://github.com/Milinator/fritzhole-ha
+arch:
+  - amd64
+  - aarch64
+startup: application
+boot: auto
+init: true
+timeout: 20
+ingress: true
+ingress_port: 8099
+panel_icon: mdi:shield-search
+panel_title: FritzHole
+panel_admin: true
+stage: experimental
+options:
+  fritzbox_host: 192.168.178.1
+  fritzbox_username: ""
+  fritzbox_password: ""
+  capture_interface: 1-lan
+  retention_days: 14
+  max_events: 2000000
+  resolve_hostnames: true
+  tcp_dns: true
+  dnsfilter_management: true
+  debug: false
+schema:
+  fritzbox_host: str
+  fritzbox_username: str
+  fritzbox_password: password
+  capture_interface: match(^[A-Za-z0-9_.:-]{1,32}$)
+  retention_days: int(1,365)
+  max_events: int(10000,50000000)
+  resolve_hostnames: bool
+  tcp_dns: bool
+  dnsfilter_management: bool
+  debug: bool

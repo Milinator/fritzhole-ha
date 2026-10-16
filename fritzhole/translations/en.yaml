@@ -1,0 +1,31 @@
+configuration:
+  fritzbox_host:
+    name: FRITZ!Box address
+    description: IP address or hostname of the FRITZ!Box (e.g. 192.168.178.1 or fritz.box).
+  fritzbox_username:
+    name: FRITZ!Box user
+    description: User with the "FRITZ!Box settings" permission (required for packet capture).
+  fritzbox_password:
+    name: FRITZ!Box password
+    description: Used locally only, never logged.
+  capture_interface:
+    name: Capture interface
+    description: Interface to capture. Default "1-lan" (LAN bridge incl. Wi-Fi).
+  retention_days:
+    name: Retention (days)
+    description: DNS events older than this are deleted automatically.
+  max_events:
+    name: Maximum events
+    description: Upper bound of stored events (protects against unbounded database growth).
+  resolve_hostnames:
+    name: Fetch device names from FRITZ!Box
+    description: Reads device names via TR-064 (requires "Allow access for applications").
+  tcp_dns:
+    name: Analyse DNS over TCP
+    description: Experimental. Analyses DNS over TCP with stream reassembly.
+  dnsfilter_management:
+    name: Manage DNS filter
+    description: Allows changing the FRITZ!Box DNS filter (allow/deny list, on/off, pause) from the dashboard. Off = read-only.
+  debug:
+    name: Debug mode
+    description: Verbose logging (credentials are never logged).

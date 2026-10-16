@@ -1,0 +1,31 @@
+configuration:
+  fritzbox_host:
+    name: FRITZ!Box-Adresse
+    description: IP-Adresse oder Hostname der FRITZ!Box (z. B. 192.168.178.1 oder fritz.box).
+  fritzbox_username:
+    name: FRITZ!Box-Benutzer
+    description: Benutzer mit der Berechtigung „FRITZ!Box Einstellungen“ (für den Paketmitschnitt erforderlich).
+  fritzbox_password:
+    name: FRITZ!Box-Passwort
+    description: Wird nur lokal verwendet und nie protokolliert.
+  capture_interface:
+    name: Mitschnitt-Schnittstelle
+    description: Schnittstelle für den Mitschnitt. Standard „1-lan“ (LAN-Brücke inkl. WLAN).
+  retention_days:
+    name: Aufbewahrung (Tage)
+    description: DNS-Ereignisse älter als diese Anzahl Tage werden automatisch gelöscht.
+  max_events:
+    name: Maximale Anzahl Ereignisse
+    description: Obergrenze der gespeicherten Ereignisse (Schutz vor unbegrenztem Datenbankwachstum).
+  resolve_hostnames:
+    name: Gerätenamen von der FRITZ!Box abrufen
+    description: Liest Gerätenamen per TR-064 (erfordert „Zugriff für Anwendungen zulassen“).
+  tcp_dns:
+    name: DNS über TCP auswerten
+    description: Experimentell. Wertet DNS-over-TCP mit Stream-Reassemblierung aus.
+  dnsfilter_management:
+    name: DNS-Filter verwalten
+    description: Erlaubt Änderungen am FRITZ!Box-DNS-Filter (Whitelist/Blacklist, Ein/Aus, Pause) aus dem Dashboard. Aus = nur lesen.
+  debug:
+    name: Debug-Modus
+    description: Ausführliche Protokollierung (ohne Zugangsdaten).

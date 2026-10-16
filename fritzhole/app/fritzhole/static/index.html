@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FritzHole</title>
+<link rel="icon" href="static/logo-icon.png" type="image/png">
+<link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <img src="static/logo-icon.png" alt="" width="28" height="28">
+    <span>FritzHole</span>
+  </div>
+  <div id="capState" class="pill" title="Status des Mitschnitts">…</div>
+  <button id="dfPill" class="pill link-pill hidden" title="FRITZ!Box-DNS-Filter – zur Verwaltung"></button>
+  <div class="spacer"></div>
+  <label class="range">Zeitraum
+    <select id="range">
+      <option value="3600">1 Stunde</option>
+      <option value="21600">6 Stunden</option>
+      <option value="86400" selected>24 Stunden</option>
+      <option value="604800">7 Tage</option>
+      <option value="2592000">30 Tage</option>
+    </select>
+  </label>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button data-tab="overview" class="active">Übersicht</button>
+  <button data-tab="live">Live-Protokoll</button>
+  <button data-tab="analysis">Auswertungen</button>
+  <button data-tab="filter">DNS-Filter</button>
+  <button data-tab="devices">Geräte</button>
+  <button data-tab="status">Status</button>
+</nav>
+
+<main>
+  <div id="banner" class="banner hidden"></div>
+
+  <!-- Übersicht -->
+  <section id="tab-overview" class="tab active">
+    <div class="kpis">
+      <div class="kpi"><span>DNS-Anfragen</span><b id="kTotal">–</b></div>
+      <div class="kpi blocked"><span>Blockiert</span><b id="kBlocked">–</b></div>
+      <div class="kpi"><span>Blockierungsrate</span><b id="kRate">–</b></div>
+      <div class="kpi allowed"><span>Erlaubt</span><b id="kAllowed">–</b></div>
+      <div class="kpi error"><span>DNS-Fehler</span><b id="kErrors">–</b><small id="kNoAnswer"></small></div>
+      <button class="kpi kpi-link" id="kFilter" data-goto="filter"><span>FRITZ!Box-DNS-Filter</span><b id="kFilterState">–</b><small id="kFilterSub"></small></button>
+      <button class="kpi kpi-link" data-goto="filter"><span>Filterlisten-Einträge</span><b id="kFilterEntries">–</b><small id="kFilterEx"></small></button>
+    </div>
+    <div class="card">
+      <div class="card-head"><h2>Verlauf</h2><div class="legend">
+        <i class="sw allowed"></i>Erlaubt <i class="sw blocked"></i>Blockiert <i class="sw error"></i>Fehler</div></div>
+      <div id="chart" class="chart"></div>
+    </div>
+    <div class="grid3">
+      <div class="card"><h2>Top blockierte Domains</h2><table id="ovTopBlocked" class="tbl compact"></table></div>
+      <div class="card"><h2>Top angefragte Domains</h2><table id="ovTopDomains" class="tbl compact"></table></div>
+      <div class="card"><h2>Aktivste Geräte</h2><table id="ovTopDevices" class="tbl compact"></table></div>
+    </div>
+  </section>
+
+  <!-- Live -->
+  <section id="tab-live" class="tab">
+    <div class="filters">
+      <input id="liveSearch" type="search" placeholder="Domain oder IP filtern …">
+      <select id="liveStatus" class="statusSel"></select>
+      <select id="liveDevice" class="deviceSel"></select>
+      <button id="livePause" class="btn">Pause</button>
+      <span id="liveConn" class="muted"></span>
+    </div>
+    <div class="card scroll"><table id="liveTable" class="tbl events"></table></div>
+  </section>
+
+  <!-- Auswertungen -->
+  <section id="tab-analysis" class="tab">
+    <div class="filters">
+      <input id="anSearch" type="search" placeholder="Suche Domain/IP …">
+      <select id="anStatus" class="statusSel"></select>
+      <select id="anDevice" class="deviceSel"></select>
+      <button id="anReset" class="btn ghost">Filter zurücksetzen</button>
+    </div>
+    <div class="kpis small" id="anKpis"></div>
+    <div class="grid2">
+      <div class="card"><h2>Top blockierte Domains</h2><table id="anTopBlocked" class="tbl compact"></table></div>
+      <div class="card"><h2>Top angefragte Domains</h2><table id="anTopDomains" class="tbl compact"></table></div>
+    </div>
+    <div class="card"><h2>Geräte &amp; Blockierungsrate</h2><table id="anDevices" class="tbl"></table></div>
+    <div class="card scroll"><h2>Ereignisse</h2><table id="anEvents" class="tbl events"></table>
+      <button id="anMore" class="btn ghost hidden">Ältere laden</button></div>
+  </section>
+
+  <!-- DNS-Filter -->
+  <section id="tab-filter" class="tab">
+    <div id="dfBanner" class="banner hidden"></div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-head"><h2>Status</h2>
+          <div class="row-gap tight"><button id="flJump" class="btn ghost small">Filterlisten ↓</button>
+          <button id="dfReload" class="btn ghost small" title="Neu von der FRITZ!Box laden">Neu laden</button></div></div>
+        <div class="df-status">
+          <div><span id="dfStateBadge" class="state-badge">…</span>
+            <div id="dfStateSub" class="muted small-text"></div></div>
+          <button id="dfToggle" class="btn hidden"></button>
+        </div>
+        <div id="dfPauseBox" class="pause-box hidden">
+          <div>Pausiert – Reaktivierung in <b class="df-countdown" id="dfCountdown">–</b>
+            <span class="muted" id="dfResumeAt"></span></div>
+          <div id="dfResumeErr" class="err-text hidden"></div>
+          <div class="row-gap"><button id="dfResume" class="btn">Jetzt wieder einschalten</button>
+            <span class="muted">Pause neu setzen:</span>
+            <span class="pause-buttons" data-pause-group></span></div>
+        </div>
+        <div id="dfPauseStart" class="pause-start hidden">
+          <span class="muted">Filter vorübergehend pausieren:</span>
+          <span class="pause-buttons" data-pause-group></span>
+        </div>
+        <dl id="dfInfo" class="kv df-info"></dl>
+      </div>
+      <div class="card">
+        <h2>FRITZ!Box-Statistik</h2>
+        <div class="kpis small" id="dfStats"></div>
+        <dl id="dfStatsMore" class="kv"></dl>
+        <p class="muted small-text">Zähler der FRITZ!Box selbst (Zeitraum laut FRITZ!OS, nicht der oben gewählte).</p>
+      </div>
+    </div>
+    <div class="card" id="dfAddCard">
+      <h2>Ausnahme hinzufügen</h2>
+      <form id="dfAddForm" class="filters">
+        <input id="dfAddDomain" type="text" placeholder="domain.example" autocomplete="off" required maxlength="253">
+        <select id="dfAddAction"><option value="allow">Whitelist (erlauben)</option><option value="deny">Blacklist (sperren)</option></select>
+        <input id="dfAddComment" type="text" placeholder="Kommentar (optional)" maxlength="200">
+        <button class="btn" type="submit">Hinzufügen …</button>
+      </form>
+    </div>
+    <div class="filters"><input id="dfSearch" type="search" placeholder="Einträge durchsuchen …"></div>
+    <div class="grid2">
+      <div class="card scroll"><h2>Whitelist <span class="badge allowed" id="dfWlCount">0</span></h2><table id="dfWhitelist" class="tbl compact"></table></div>
+      <div class="card scroll"><h2>Blacklist <span class="badge blocked" id="dfBlCount">0</span></h2><table id="dfBlacklist" class="tbl compact"></table></div>
+    </div>
+    <div class="card" id="flCard">
+      <div class="card-head"><h2>Filterlisten</h2>
+        <div class="row-gap tight"><button id="flUpdate" class="btn ghost small">Alle aktualisieren …</button>
+          <button id="flAdd" class="btn small">+ Filterliste</button></div></div>
+      <div id="flProgress" class="progress hidden" role="status" aria-live="polite"></div>
+      <div id="flAuto" class="auto-row"></div>
+      <div id="flList" class="fl-list"></div>
+    </div>
+    <p class="muted small-text">Grundlage ist die inoffizielle Beta-API von FRITZ!OS (<code>/api/v0/beta/dnsfilter</code>).
+      Jede Änderung wird nach dem Schreiben erneut ausgelesen und bestätigt.</p>
+  </section>
+
+  <!-- Geräte -->
+  <section id="tab-devices" class="tab">
+    <p class="muted">Geräte werden über die MAC-Adresse (falls im Mitschnitt vorhanden) zusammengefasst, sonst je IP.
+      Unsichere Zuordnungen werden nicht automatisch zusammengeführt – das kannst du hier manuell tun.</p>
+    <div class="card scroll"><table id="devTable" class="tbl"></table></div>
+  </section>
+
+  <!-- Status -->
+  <section id="tab-status" class="tab">
+    <div class="grid2">
+      <div class="card"><h2>Mitschnitt</h2><dl id="stCapture" class="kv"></dl></div>
+      <div class="card"><h2>Datenbank &amp; Dienst</h2><dl id="stDb" class="kv"></dl></div>
+    </div>
+  </section>
+</main>
+<div id="tooltip" class="tooltip hidden"></div>
+<div id="ctxMenu" class="ctx hidden" role="menu"></div>
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+  <form id="modalBox" class="modal-box">
+    <h3 id="modalTitle"></h3>
+    <div id="modalBody"></div>
+    <div id="modalErr" class="err-text hidden"></div>
+    <div class="modal-actions">
+      <button type="button" class="btn ghost" id="modalCancel">Abbrechen</button>
+      <button type="submit" class="btn" id="modalOk">OK</button>
+    </div>
+  </form>
+</div>
+<div id="toast" class="toast hidden" role="status"></div>
+<script src="static/app.js"></script>
+</body>
+</html>
