@@ -16,8 +16,14 @@ Die Verwaltung nutzt eine **inoffizielle Beta-API** (`/api/v0/beta/dnsfilter`), 
 Ohne DNS-Filter in der FRITZ!Box zeigt der Tab „DNS-Filter“ eine Fehlermeldung; Live-Protokoll und Auswertungen
 (Paketmitschnitt) funktionieren unabhängig davon.
 
-> Inoffizielles Community-Projekt. Nicht mit AVM verbunden oder von AVM unterstützt.
-> FRITZ! und FRITZ!Box sind Marken der AVM GmbH.
+> [!IMPORTANT]
+> **Inoffizielles Privatprojekt – nicht von AVM.**
+> FritzHole wird von einer Privatperson in der Freizeit entwickelt. Es besteht **keine Verbindung** zur
+> AVM GmbH bzw. FRITZ! GmbH: kein offizielles Produkt, keine Kooperation, keine Unterstützung oder Freigabe durch AVM.
+> Bitte wende dich bei Fragen oder Problemen mit FritzHole **nicht an den AVM-Support**, sondern nutze die
+> [Issues](https://github.com/Milinator/fritzhole-ha/issues) dieses Repositories.
+>
+> *Unofficial hobby project. Not affiliated with, endorsed by or supported by AVM / FRITZ! GmbH.*
 
 ## Installation
 
@@ -87,6 +93,16 @@ Abgesichert durch `tests/test_fritzbox_capture.py::test_capture_query_uses_perce
   (PCAP-Format, Beta-API).
 - `capture=Stop` ist nicht offiziell dokumentiert; zusätzlich wird die HTTP-Verbindung geschlossen.
 - SSE über Ingress: Fällt automatisch auf Polling (3 s) zurück, falls ein Proxy den Stream puffert.
+
+## Haftungsausschluss und Marken
+
+- FRITZ!, FRITZ!Box und FRITZ!OS sind Marken der AVM GmbH bzw. FRITZ! GmbH. Sie werden hier nur verwendet, um
+  zu beschreiben, mit welchen Geräten FritzHole zusammenarbeitet. Name und Logo von FritzHole sind keine
+  Produkte oder Logos von AVM.
+- FritzHole nutzt **inoffizielle, undokumentierte Schnittstellen** von FRITZ!OS (u. a. eine Beta-API). Diese können
+  sich mit jedem FRITZ!OS-Update ändern oder wegfallen.
+- Die DNS-Filter-Verwaltung **ändert Einstellungen deiner FRITZ!Box** (Filter ein/aus, Ausnahmen, Filterlisten).
+  Nutzung auf eigenes Risiko. Die Software wird ohne jede Gewährleistung bereitgestellt (siehe Lizenz).
 
 ## Lizenz
 

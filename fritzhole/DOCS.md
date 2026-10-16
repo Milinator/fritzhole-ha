@@ -1,5 +1,9 @@
 # FritzHole
 
+> **Inoffizielles Privatprojekt – nicht von AVM.** Keine Verbindung zur AVM GmbH bzw. FRITZ! GmbH, kein Support
+> durch AVM. Fragen und Fehler bitte über die [GitHub-Issues](https://github.com/Milinator/fritzhole-ha/issues)
+> melden. FRITZ!, FRITZ!Box und FRITZ!OS sind Marken der AVM GmbH bzw. FRITZ! GmbH.
+
 FritzHole zeigt, was die integrierte DNS-Filterung deiner FRITZ!Box blockiert – als Dashboard ähnlich Pi-hole,
 direkt in der Home-Assistant-Seitenleiste.
 
