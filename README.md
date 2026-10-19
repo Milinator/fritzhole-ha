@@ -25,12 +25,7 @@
   </a>
 </p>
 
-<!--
-  SCREENSHOT EINFÜGEN: docs/images/dashboard-overview.png
-  (Übersicht mit Kennzahlen, Verlauf und Top-Listen – siehe docs/images/README.md)
-  Danach die folgende Zeile aus dem Kommentar herausnehmen:
-  <p align="center"><img src="docs/images/dashboard-overview.png" alt="FritzHole-Dashboard" width="900"></p>
--->
+<p align="center"><img src="docs/images/dashboard-overview.png" alt="FritzHole-Dashboard" width="900"><br><sub>Domains und Gerätenamen für den Screenshot anonymisiert.</sub></p>
 
 > [!IMPORTANT]
 > **Inoffizielles Open-Source-Projekt – nicht von AVM.** FritzHole wird privat entwickelt und steht in keiner

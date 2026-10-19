@@ -25,12 +25,7 @@
   </a>
 </p>
 
-<!--
-  INSERT SCREENSHOT: docs/images/dashboard-overview.png
-  (overview with key figures, timeline and top lists – see docs/images/README.md)
-  Then move the following line out of this comment:
-  <p align="center"><img src="docs/images/dashboard-overview.png" alt="FritzHole dashboard" width="900"></p>
--->
+<p align="center"><img src="docs/images/dashboard-overview.png" alt="FritzHole dashboard" width="900"><br><sub>Domains and device names anonymized for this screenshot.</sub></p>
 
 > [!IMPORTANT]
 > **Unofficial open-source project – not made by AVM.** FritzHole is a private hobby project and is not affiliated
